@@ -20,11 +20,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-2
           
-      - name: Setup SSH Key
-        run: |
-          echo "${{ secrets.EC2_SSH_KEY }}" > ec2_key.pem
-          chmod 600 ec2_key.pem
-
+  
       - name: Deploy to EC2
         run: |
           ssh -o StrictHostKeyChecking=no -i ${{ secrets.EC2_SSH_KEY }} ubuntu@${{ secrets.EC2_PUBLIC_IP }} << 'EOF'
