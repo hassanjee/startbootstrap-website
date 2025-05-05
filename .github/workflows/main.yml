@@ -21,8 +21,10 @@ jobs:
           aws-region: us-east-2
           
       - name: Deploy to EC2
+        env:
+          PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
         run: |
-          ${{ secrets.EC2_SSH_KEY }} > github-ec2.pem && chmod 600 github-ec2.pem
+          echo "$PRIVATE_KEY" > github-ec2.pem && chmod 600 github-ec2.pem
           ssh -o StrictHostKeyChecking=no -i github-ec2.pem ubuntu@${{ secrets.EC2_PUBLIC_IP }} << 'EOF'
             cd /usr/share/nginx/html
             git pull origin main
